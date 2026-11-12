@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BURGER VPN — Вкус свободного интернета</title>
+
+  <!-- Иконка во вкладке браузера сверху -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='16' fill='%23120D0A'/><path d='M14 27C14 17 22 11 32 11C42 11 50 17 50 27H14Z' fill='%23FF7B00'/><path d='M12 32C17 29.5 22 34.5 27 32C32 29.5 36 34.5 41 32C46 29.5 50 34.5 52 32' stroke='%2322C55E' stroke-width='4' stroke-linecap='round' fill='none'/><rect x='12' y='37' width='40' height='7' rx='3.5' fill='%23FF4500'/><path d='M14 47H50V50C50 53 47.5 55 44.5 55H19.5C16.5 55 14 53 14 50V47Z' fill='%23FF7B00'/></svg>" />
+
+  <!-- Шрифты -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Unbounded:wght@600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Подключение CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ЭКРАН ЗАГРУЗКИ (ИНТРО ЛОГОТИПА) -->
+  <div id="preloader">
+    <div class="loader-logo-wrap">
+      <svg class="loader-icon" width="84" height="84" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 27C12 16.5 20.5 10 32 10C43.5 10 52 16.5 52 27H12Z" fill="#FF7B00"/>
+        <circle cx="24" cy="17.5" r="2" fill="#FFFFFF"/>
+        <circle cx="32" cy="15.5" r="2" fill="#FFFFFF"/>
+        <circle cx="40" cy="18" r="2" fill="#FFFFFF"/>
+        <path d="M10 32C15 29.5 20 34.5 25 32C30 29.5 34 34.5 39 32C44 29.5 49 34.5 54 32" stroke="#22C55E" stroke-width="4" stroke-linecap="round"/>
+        <rect x="10" y="37" width="44" height="7" rx="3.5" fill="#FF4500"/>
+        <path d="M12 47H52V50C52 53.5 49 56 45.5 56H18.5C15 56 12 53.5 12 50V47Z" fill="#FF7B00"/>
+      </svg>
+      <div class="loader-text">BURGER VPN</div>
+      <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+    </div>
+  </div>
+
+  <!-- ФОНОВЫЕ ЭФФЕКТЫ -->
+  <div class="ambient-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+  <div class="cyber-grid"></div>
+  <canvas id="particles-canvas"></canvas>
+  <div id="burgers-layer" aria-hidden="true"></div>
+
+  <!-- НАВИГАЦИОННАЯ ПАНЕЛЬ СВЕРХУ С ИКОНКОЙ -->
+  <header class="navbar" id="navbar">
+    <div class="container nav-inner">
+      <a href="#top" class="brand-logo">
+        <div class="brand-icon-box">
+          <!-- Встроенная SVG-иконка, которая никогда не пропадёт -->
+          <svg class="brand-svg" width="28" height="28" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 27C12 16.5 20.5 10 32 10C43.5 10 52 16.5 52 27H12Z" fill="#FF8A00"/>
+            <circle cx="24" cy="17.5" r="2" fill="#FFFFFF"/>
+            <circle cx="32" cy="15.5" r="2" fill="#FFFFFF"/>
+            <circle cx="40" cy="18" r="2" fill="#FFFFFF"/>
+            <path d="M10 32C15 29.5 20 34.5 25 32C30 29.5 34 34.5 39 32C44 29.5 49 34.5 54 32" stroke="#22C55E" stroke-width="4.2" stroke-linecap="round"/>
+            <rect x="10" y="37" width="44" height="7" rx="3.5" fill="#FF4500"/>
+            <path d="M12 47H52V50C52 53.5 49 56 45.5 56H18.5C15 56 12 53.5 12 50V47Z" fill="#FF8A00"/>
+          </svg>
+        </div>
+        <span>BURGER <em>VPN</em></span>
+      </a>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#stats">Статистика</a></li>
+        <li><a href="#about">О нашем VPN</a></li>
+        <li><a href="#features">Преимущества</a></li>
+        <li><a href="#telegram">Telegram</a></li>
+      </ul>
+
+      <a href="https://t.me/vkfally" target="_blank" rel="noopener noreferrer" class="nav-cta">
+        Подключить
+      </a>
+
+      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Меню">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ГЛАВНЫЙ ЭКРАН -->
+  <main>
+    <section class="hero" id="top">
+      <div class="container hero-grid">
+        <div class="hero-content reveal">
+          <div class="hero-badge">
+            <span class="pulse-dot"></span>
+            Протоколы нового поколения VLESS & WireGuard
+          </div>
+
+          <div class="hero-title-wrap">
+            <div class="title-glow"></div>
+            <h1 class="hero-title">
+              <span class="gradient-text">BURGER VPN</span> — ВКУС СВОБОДНОГО ИНТЕРНЕТА!
+            </h1>
+          </div>
+
+          <p class="hero-subtitle">
+            «Быстрое, стабильное и удобное VPN-подключение. Наслаждайся свободой интернета вместе с BURGER VPN».
+          </p>
+
+          <div class="hero-actions">
+            <a href="https://t.me/vkfally" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              </svg>
+              Подключиться
+            </a>
+            <a href="#about" class="btn btn-secondary">
+              Узнать подробнее
+            </a>
+          </div>
+        </div>
+
+        <!-- Интерактивный 3D-виджет -->
+        <div class="hero-visual reveal">
+          <div class="vpn-widget" id="vpn-widget">
+            <div class="widget-header">
+              <div class="widget-server">
+                <span class="server-dot"></span>
+                <span>Нидерланды • Pro #01</span>
+              </div>
+              <div class="widget-ping" id="widget-ping">14 ms</div>
+            </div>
+
+            <div class="power-ring-wrap">
+              <button class="power-btn connected" id="power-toggle" title="Переключить симуляцию">
+                <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+                  <line x1="12" y1="2" x2="12" y2="12"></line>
+                </svg>
+              </button>
+              <div class="power-status-text" id="power-status">ЗАЩИЩЕНО • 10 ГБИТ/С</div>
+            </div>
+
+            <div class="widget-metrics">
+              <div class="metric-box">
+                <div class="metric-label">Загрузка</div>
+                <div class="metric-val" id="metric-down">948.4 Мбит/с</div>
+              </div>
+              <div class="metric-box">
+                <div class="metric-label">Шифрование</div>
+                <div class="metric-val">AES-256-GCM</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- СТАТИСТИКА -->
+    <section id="stats">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-tag">Цифры и масштаб</span>
+          <h2 class="section-title">Мощность, проверенная тысячами пользователей</h2>
+          <p class="section-desc">Инфраструктура с резервированием каналов и минимальным откликом для стриминга в 4K, игр и работы.</p>
+        </div>
+
+        <div class="stats-grid">
+          <div class="glass-card stat-card reveal">
+            <div class="stat-number" data-stat="users">0</div>
+            <div class="stat-label">Активных пользователей</div>
+          </div>
+          <div class="glass-card stat-card reveal">
+            <div class="stat-number" data-stat="servers">0</div>
+            <div class="stat-label">Скоростных серверов</div>
+          </div>
+          <div class="glass-card stat-card reveal">
+            <div class="stat-number" data-stat="speed">0</div>
+            <div class="stat-label">Скорость подключения</div>
+          </div>
+          <div class="glass-card stat-card reveal">
+            <div class="stat-number" data-stat="uptime">0</div>
+            <div class="stat-label">Время стабильной работы</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- О НАШЕМ VPN -->
+    <section id="about">
+      <div class="container about-grid">
+        <div class="about-content reveal">
+          <span class="section-tag">О нашем VPN</span>
+          <h3>Многослойная защита — как идеальный фирменный бургер</h3>
+          <p>
+            <strong>BURGER VPN</strong> создан для тех, кто устал от обрывов связи, медленной загрузки и сложных настроек. Мы объединили передовые протоколы обфускации трафика с выделенными каналами до 10 Гбит/с.
+          </p>
+          <p>
+            Ваш трафик надёжно зашифрован от провайдеров и посторонних глаз, а умная маршрутизация автоматически подбирает ближайший узел с минимальным пингом.
+          </p>
+        </div>
+
+        <div class="layers-stack reveal">
+          <div class="layer-item">
+            <div class="layer-badge">01</div>
+            <div class="layer-info">
+              <h4>Маскировка трафика Reality / VLESS</h4>
+              <span>Соединение выглядит как обычный визит на популярный сайт</span>
+            </div>
+          </div>
+          <div class="layer-item">
+            <div class="layer-badge">02</div>
+            <div class="layer-info">
+              <h4>Строгая политика No-Logs</h4>
+              <span>Мы не храним историю посещений, IP-адреса и DNS-запросы</span>
+            </div>
+          </div>
+          <div class="layer-item">
+            <div class="layer-badge">03</div>
+            <div class="layer-info">
+              <h4>Выделенные NVMe-серверы 10 Gbps</h4>
+              <span>Никаких перегрузок даже в вечерние часы пик</span>
+            </div>
+          </div>
+          <div class="layer-item">
+            <div class="layer-badge">04</div>
+            <div class="layer-info">
+              <h4>Мгновенный запуск за 30 секунд</h4>
+              <span>Удобная выдача ключа и инструкция прямо в Telegram</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ПРЕИМУЩЕСТВА -->
+    <section id="features">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-tag">Почему выбирают нас</span>
+          <h2 class="section-title">Преимущества BURGER VPN</h2>
+          <p class="section-desc">Продуманная экосистема для комфортного и безопасного интернета на каждом устройстве.</p>
+        </div>
+
+        <div class="features-grid">
+          <div class="glass-card feature-card reveal">
+            <div class="feature-icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              </svg>
+            </div>
+            <h3>Высокая скорость</h3>
+            <p>Смотрите видео в 4K HDR без буферизации и скачивайте тяжелые файлы на максимальной скорости вашего тарифа.</p>
+          </div>
+
+          <div class="glass-card feature-card reveal">
+            <div class="feature-icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+            </div>
+            <h3>Стабильное подключение</h3>
+            <p>Автоматическое переподключение и балансировка нагрузки гарантируют бесперебойную работу 24/7.</p>
+          </div>
+
+          <div class="glass-card feature-card reveal">
+            <div class="feature-icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                <rect x="9" y="9" width="6" height="6"></rect>
+                <line x1="9" y1="1" x2="9" y2="4"></line>
+                <line x1="15" y1="1" x2="15" y2="4"></line>
+                <line x1="9" y1="20" x2="9" y2="23"></line>
+                <line x1="15" y1="20" x2="15" y2="23"></line>
+              </svg>
+            </div>
+            <h3>Современные технологии</h3>
+            <p>Используем новейшие криптографические протоколы с защитой от анализа трафика и блокировок.</p>
+          </div>
+
+          <div class="glass-card feature-card reveal">
+            <div class="feature-icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="8" y1="21" x2="16" y2="21"></line>
+                <line x1="12" y1="17" x2="12" y2="21"></line>
+              </svg>
+            </div>
+            <h3>Удобный интерфейс</h3>
+            <p>Поддержка iOS, Android, Windows, macOS и Linux. Интуитивное управление в один клик.</p>
+          </div>
+
+          <div class="glass-card feature-card reveal">
+            <div class="feature-icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              </svg>
+            </div>
+            <h3>Поддержка пользователей</h3>
+            <p>Живая и отзывчивая поддержка в Telegram поможет настроить подключение за пару минут.</p>
+          </div>
+
+          <div class="glass-card feature-card reveal">
+            <div class="feature-icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </div>
+            <h3>Простое подключение</h3>
+            <p>Никаких сложных регистраций — получите персональный ключ в Telegram и подключитесь мгновенно.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- БЛОК TELEGRAM -->
+    <section id="telegram">
+      <div class="container">
+        <div class="telegram-box reveal">
+          <span class="section-tag">Мгновенный доступ</span>
+          <h2>Готовы попробовать вкус свободного интернета?</h2>
+          <p>
+            Переходите в наш официальный Telegram, чтобы подключить BURGER VPN за 30 секунд и получить доступ ко всем локациям.
+          </p>
+          <a href="https://t.me/vkfally" target="_blank" rel="noopener noreferrer" class="btn-telegram">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+            </svg>
+            ПЕРЕЙТИ В TELEGRAM
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ФУТЕР -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <a href="#top" class="brand-logo">
+          <div class="brand-icon-box">
+            <svg class="brand-svg" width="26" height="26" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 27C12 16.5 20.5 10 32 10C43.5 10 52 16.5 52 27H12Z" fill="#FF8A00"/>
+              <path d="M10 32C15 29.5 20 34.5 25 32C30 29.5 34 34.5 39 32C44 29.5 49 34.5 54 32" stroke="#22C55E" stroke-width="4.2" stroke-linecap="round"/>
+              <rect x="10" y="37" width="44" height="7" rx="3.5" fill="#FF4500"/>
+              <path d="M12 47H52V50C52 53.5 49 56 45.5 56H18.5C15 56 12 53.5 12 50V47Z" fill="#FF8A00"/>
+            </svg>
+          </div>
+          <span>BURGER <em>VPN</em></span>
+        </a>
+
+        <div class="footer-links">
+          <a href="#stats">Статистика</a>
+          <a href="#about">О сервисе</a>
+          <a href="#features">Преимущества</a>
+          <a href="https://t.me/vkfally" target="_blank" rel="noopener noreferrer">Telegram</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 BURGER VPN. Все права защищены.</span>
+        <span>Вкус свободного и безопасного интернета.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Подключение JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>
